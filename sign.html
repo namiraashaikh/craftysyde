@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Freelance Marketplace - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Popup Modal CSS -->
+    <style>
+        .custom-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(94,23,235,0.45);
+            backdrop-filter: blur(7px) brightness(0.95) saturate(1.2);
+            -webkit-backdrop-filter: blur(7px) brightness(0.95) saturate(1.2);
+            z-index: 1050;
+            display: none;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        .custom-modal-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 12px 48px rgba(94,23,235,0.18), 0 2px 12px rgba(29,191,115,0.13);
+            z-index: 1060;
+            min-width: 320px;
+            max-width: 98vw;
+            width: 420px;
+            padding: 2.5rem 2rem 2rem 2rem;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            border: 2.5px solid #5e17eb22;
+            overflow: hidden;
+        }
+        .custom-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1.04);
+        }
+        .custom-modal .modal-close {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.3rem;
+            background: none;
+            border: none;
+            font-size: 1.7rem;
+            color: #5e17eb;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+        .custom-modal .modal-close:hover {
+            color: #1dbf73;
+        }
+        .custom-modal .modal-icon {
+            font-size: 2.8rem;
+            color: #1dbf73;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .custom-modal .modal-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 18px;
+            padding: 0.25rem 1.1rem;
+            margin-bottom: 0.7rem;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(94,23,235,0.10);
+            animation: badge-pop 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes badge-pop {
+            0% { transform: scale(0.7); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .custom-modal h3 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+        .custom-modal p {
+            color: #555;
+            font-size: 1.08rem;
+            margin-bottom: 1.3rem;
+            line-height: 1.6;
+        }
+        .custom-modal .modal-list {
+            text-align: left;
+            margin: 1.1rem auto 1.5rem auto;
+            max-width: 320px;
+            padding-left: 0;
+        }
+        .custom-modal .modal-list li {
+            list-style: none;
+            margin-bottom: 0.7rem;
+            font-size: 1.01rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+        }
+        .custom-modal .modal-list li i {
+            color: #1dbf73;
+            font-size: 1.1em;
+        }
+        .custom-modal .modal-btn {
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2.2rem;
+            font-weight: 700;
+            font-size: 1.08rem;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px rgba(94,23,235,0.10);
+            margin-bottom: 0.7rem;
+        }
+        .custom-modal .modal-btn:hover {
+            background: linear-gradient(90deg, #5e17eb 0%, #1dbf73 100%);
+            box-shadow: 0 4px 20px rgba(94,23,235,0.15);
+        }
+        .custom-modal .modal-note {
+            font-size: 0.97rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 500px) {
+            .custom-modal {
+                width: 98vw;
+                padding: 1.2rem 0.7rem 1rem 0.7rem;
+            }
+            .custom-modal h3 {
+                font-size: 1.08rem;
+            }
+            .custom-modal p {
+                font-size: 0.97rem;
+            }
+        }
+    </style>
+
+    <!-- Popup Modal HTML -->
+    <div class="custom-modal-backdrop" id="customModalBackdrop"></div>
+    <div class="custom-modal" id="customModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+        <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+        <div class="modal-icon">
+            <i class="bi bi-stars"></i>
+        </div>
+        <h3 id="modalTitle">Welcome to CraftySyde!</h3>
+        <p>
+            Unlock <span style="color:#1dbf73;font-weight:600;">20% OFF</span> your first project.<br>
+            Join our creative community and connect with top freelancers for any service you need!
+        </p>
+        <ul class="modal-list">
+            <li><i class="bi bi-check-circle-fill"></i> Instant access to expert freelancers</li>
+            <li><i class="bi bi-check-circle-fill"></i> Secure payments &amp; project protection</li>
+            <li><i class="bi bi-check-circle-fill"></i> 24/7 support for clients &amp; freelancers</li>
+            <li><i class="bi bi-check-circle-fill"></i> Exclusive deals for new users</li>
+        </ul>
+        <button class="modal-btn" id="modalSignupBtn">Get My 20% Off</button>
+        <div class="modal-note">
+            No credit card required. Offer valid for a limited time.
+        </div>
+    </div>
+
+    <!-- Popup Modal JS -->
+    <script>
+        // Show popup after delay or on first visit
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!sessionStorage.getItem('popupShown')) {
+                setTimeout(() => {
+                    document.getElementById('customModalBackdrop').classList.add('active');
+                    document.getElementById('customModal').classList.add('active');
+                    document.getElementById('customModal').focus();
+                    sessionStorage.setItem('popupShown', 'yes');
+                }, 1800);
+            }
+        });
+
+        // Close modal function
+        function closeCustomModal() {
+            document.getElementById('customModalBackdrop').classList.remove('active');
+            document.getElementById('customModal').classList.remove('active');
+        }
+
+        document.getElementById('modalCloseBtn').onclick = closeCustomModal;
+        document.getElementById('customModalBackdrop').onclick = closeCustomModal;
+        document.getElementById('modalSignupBtn').onclick = function() {
+            closeCustomModal();
+            window.location.href = "#"; // Change to signup page if available
+        };
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && document.getElementById('customModal').classList.contains('active')) {
+                closeCustomModal();
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #222;
+        }
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #16a085 !important;
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: #222 !important;
+            font-weight: 500;
+            margin-right: 10px;
+            transition: color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #222 !important;
+        }
+        .btn-primary, .btn-outline-primary {
+            background: #5e17eb;
+            border-color: #5e17eb;
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary:hover, .btn-outline-primary:hover {
+            background: #138d75;
+            border-color: #138d75;
+            color: #fff;
+        }
+        .hero-section {
+            background: linear-gradient(120deg, #16a08508 60%, #5e17eb08 100%);
+            color: #fff;
+            padding: 80px 0 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .underline-anim {
+            position: relative;
+            overflow: hidden;
+        }
+        .underline-anim::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: #5e17eb;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .underline-anim:hover::after,
+        .underline-anim.active::after {
+            transform: scaleX(1);
+        }
+        </style>
+        </head>
+        <body>
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="images/logo.png" alt="Logo" width="auto" height="30px" class="me-2" style="border-radius:8px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item"><a class="nav-link active" href="index.html"><span class="underline-anim">Home</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html"><span class="underline-anim">About</span></a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="underline-anim">Categories</span>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                <li><a class="dropdown-item" href="graphics.html">Graphic Design</a></li>
+                <li><a class="dropdown-item" href="web.html">Web &amp; App Development</a></li>
+                <li><a class="dropdown-item" href="content.html">Content Writing</a></li>
+                <li><a class="dropdown-item" href="digital.html">Digital Marketing</a></li>
+                <li><a class="dropdown-item" href="voice.html">Voice Over &amp; Audio</a></li>
+                <li><a class="dropdown-item" href="photo.html">Photography &amp; Video Editing</a></li>
+                <li><a class="dropdown-item" href="ecommerce.html">E-commerce Solutions</a></li>
+                <li><a class="dropdown-item" href="business.html">Business &amp; Legal Services</a></li>
+                </ul>
+            </li>
+            
+            <li class="nav-item"><a class="nav-link" href="contact.html"><span class="underline-anim">Contact</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="sign.html"><span class="underline-anim">Sign In</span></a></li>
+            <li class="nav-item ms-lg-2"><a class="btn btn-outline-primary px-3" href="join.html">Join</a></li>
+            </ul>
+            
+        </div>
+        </div>
+    </nav>
+
+<!-- Promo Banner -->
+<div class="promo-banner py-2">
+    <div class="promo-marquee fw-semibold">
+        🎉 Sign up now and get 20% off your first project! Limited time offer. 🎉
+    </div>
+</div>
+
+<style>
+    .promo-banner {
+        background: linear-gradient(120deg, #16a085 60%, #5e17eb 100%);
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+    .promo-marquee {
+        white-space: nowrap;
+        display: inline-block;
+        animation: marquee 18s linear infinite;
+        font-size: 1rem;
+        padding-left: 100%;
+    }
+    @keyframes marquee {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center justify-content-center position-relative" style="min-height:70vh; background: transparent;">
+    <!-- Background overlay with lower opacity -->
+    <div style="position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(120deg, #16a085cc 60%, #5e17ebcc 100%);opacity:0.45;"></div>
+    <div class="container text-center position-relative" style="z-index:1;">
+        <h1 class="display-5 fw-bold mb-3" style="color: #222;">
+            Sign In to 
+            <span style="color:#1dbf73;">crafty</span><span style="color:#5e17eb;">syde</span>
+        </h1>
+        <p class="lead mb-4" style="color:#444;">Access your account, manage projects, and connect with top freelancers.</p>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+                <form id="signinForm" class="bg-white rounded-4 shadow p-4 p-md-5 mx-auto" style="max-width:400px;">
+                    <div class="mb-3 text-start">
+                        <label for="signinEmail" class="form-label fw-semibold">Email address</label>
+                        <input type="email" class="form-control" id="signinEmail" placeholder="you@example.com" required>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="signinPassword" class="form-label fw-semibold">Password</label>
+                        <input type="password" class="form-control" id="signinPassword" placeholder="Enter your password" required minlength="6">
+                    </div>
+                    <div class="mb-3 form-check text-start">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe" style="color: #444;">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Sign In</button>
+                    <div id="signinMsg" class="mt-3 text-center small"></div>
+                    <div class="mt-3 text-center">
+                        <span>Don't have an account?</span>
+                        <a href="join.html" class="fw-semibold" style="color:#5e17eb;">Join Now</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+// Simple demo sign-in logic (replace with real backend integration)
+document.getElementById('signinForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('signinEmail').value.trim();
+    const password = document.getElementById('signinPassword').value;
+    const msg = document.getElementById('signinMsg');
+    msg.textContent = '';
+    msg.className = 'mt-3 text-center small';
+
+    // Demo: Accepts only demo@example.com / password123
+    if (email === 'demo@example.com' && password === 'password123') {
+        msg.textContent = 'Sign in successful! Redirecting...';
+        msg.classList.add('text-success');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1200);
+    } else {
+        msg.textContent = 'Invalid email or password. Try demo@example.com / password123';
+        msg.classList.add('text-danger');
+    }
+});
+</script>
+
+<!-- Footer -->
+<footer class="footer-section mt-5 pt-4 pb-3">
+    <div class="container">
+        <div class="row gy-4 align-items-start">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+                <a class="footer-brand d-flex align-items-center mb-2" href="#">
+                    <img src="images/logo.png" alt="CraftySyde Logo" height="34" style="border-radius:8px;">
+                </a>
+                <p class="footer-desc" style="color:#222;">
+                    Connecting you with top freelancers for every creative and business need.
+                </p>
+            </div>
+            <div class="col-6 col-md-2">
+                <h6 class="footer-title">Marketplace</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="graphics.html">Graphic Design</a></li>
+                    <li><a href="web.html">Web &amp; App Dev</a></li>
+                    <li><a href="content.html">Content Writing</a></li>
+                    <li><a href="digital.html">Digital Marketing</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2">
+                <h6 class="footer-title">Company</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sign.html">Sign In</a></li>
+                    <li><a href="join.html">Join</a></li>
+
+                </ul>
+            </div>
+            <div class="col-12 col-md-4">
+                <h6 class="footer-title">Get in Touch</h6>
+                <ul class="footer-contact list-unstyled mb-2">
+                    <li><i class="bi bi-envelope me-2"></i> <a href="mailto:support@craftysyde.com">support@craftysyde.com</a></li>
+                    <li><i class="bi bi-geo-alt me-2"></i> Mumbai, India</li>
+                </ul>
+                <div class="footer-social d-flex gap-3">
+                    <a href="https://www.instagram.com/" class="footer-social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/" class="footer-social-link" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="https://in.linkedin.com/" class="footer-social-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://www.facebook.com/" class="footer-social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="footer-divider my-4">
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="footer-copyright mb-2 mb-md-0">
+                &copy; 2025 CraftySyde. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+.footer-section {
+    background-color: white;
+    box-shadow: 0 -2px 12px rgba(94,23,235,0.07);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+.footer-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #16a085 !important;
+    text-decoration: none;
+}
+.footer-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #5e17eb;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.5px;
+}
+.footer-links li {
+    margin-bottom: 0.4rem;
+}
+.footer-links a {
+    color: #222;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+.footer-links a:hover {
+    color: #1dbf73;
+}
+.footer-contact li {
+    color: #555;
+    font-size: 0.98rem;
+    margin-bottom: 0.3rem;
+}
+.footer-contact a {
+    color: #5e17eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+.footer-contact a:hover {
+    color: #1dbf73;
+}
+.footer-social-link {
+    color: #5e17eb;
+    font-size: 1.3rem;
+    transition: color 0.2s, transform 0.2s;
+}
+.footer-social-link:hover {
+    color: #1dbf73;
+    transform: scale(1.15);
+}
+.footer-divider {
+    border-top: 1.5px solid #e0e0e0;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+.footer-bottom {
+    font-size: 0.97rem;
+    color: #888;
+}
+.footer-legal a {
+    color: #888;
+    text-decoration: none;
+    margin-right: 0.7rem;
+    transition: color 0.2s;
+    font-size: 0.97rem;
+}
+.footer-legal a:hover {
+    color: #5e17eb;
+}
+@media (max-width: 900px) {
+    .footer-section {
+        border-radius: 18px 18px 0 0;
+        font-size: 0.97rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .footer-title {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 600px) {
+    .footer-section {
+        border-radius: 12px 12px 0 0;
+        font-size: 0.95rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .footer-title {
+        font-size: 0.97rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+</style>
+<!-- Bootstrap JS (for carousel) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

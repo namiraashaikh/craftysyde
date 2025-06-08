@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Freelance Marketplace - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Popup Modal CSS -->
+    <style>
+        .custom-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(94,23,235,0.45);
+            backdrop-filter: blur(7px) brightness(0.95) saturate(1.2);
+            -webkit-backdrop-filter: blur(7px) brightness(0.95) saturate(1.2);
+            z-index: 1050;
+            display: none;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        .custom-modal-backdrop.active {
+            display: block;
+            opacity: 1;
+        }
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 12px 48px rgba(94,23,235,0.18), 0 2px 12px rgba(29,191,115,0.13);
+            z-index: 1060;
+            min-width: 320px;
+            max-width: 98vw;
+            width: 420px;
+            padding: 2.5rem 2rem 2rem 2rem;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            border: 2.5px solid #5e17eb22;
+            overflow: hidden;
+        }
+        .custom-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1.04);
+        }
+        .custom-modal .modal-close {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.3rem;
+            background: none;
+            border: none;
+            font-size: 1.7rem;
+            color: #5e17eb;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 2;
+        }
+        .custom-modal .modal-close:hover {
+            color: #1dbf73;
+        }
+        .custom-modal .modal-icon {
+            font-size: 2.8rem;
+            color: #1dbf73;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .custom-modal .modal-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-radius: 18px;
+            padding: 0.25rem 1.1rem;
+            margin-bottom: 0.7rem;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(94,23,235,0.10);
+            animation: badge-pop 0.7s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes badge-pop {
+            0% { transform: scale(0.7); opacity: 0; }
+            60% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .custom-modal h3 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+        .custom-modal p {
+            color: #555;
+            font-size: 1.08rem;
+            margin-bottom: 1.3rem;
+            line-height: 1.6;
+        }
+        .custom-modal .modal-list {
+            text-align: left;
+            margin: 1.1rem auto 1.5rem auto;
+            max-width: 320px;
+            padding-left: 0;
+        }
+        .custom-modal .modal-list li {
+            list-style: none;
+            margin-bottom: 0.7rem;
+            font-size: 1.01rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 0.6em;
+        }
+        .custom-modal .modal-list li i {
+            color: #1dbf73;
+            font-size: 1.1em;
+        }
+        .custom-modal .modal-btn {
+            background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 2.2rem;
+            font-weight: 700;
+            font-size: 1.08rem;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px rgba(94,23,235,0.10);
+            margin-bottom: 0.7rem;
+        }
+        .custom-modal .modal-btn:hover {
+            background: linear-gradient(90deg, #5e17eb 0%, #1dbf73 100%);
+            box-shadow: 0 4px 20px rgba(94,23,235,0.15);
+        }
+        .custom-modal .modal-note {
+            font-size: 0.97rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 500px) {
+            .custom-modal {
+                width: 98vw;
+                padding: 1.2rem 0.7rem 1rem 0.7rem;
+            }
+            .custom-modal h3 {
+                font-size: 1.08rem;
+            }
+            .custom-modal p {
+                font-size: 0.97rem;
+            }
+        }
+    </style>
+
+    <!-- Popup Modal HTML -->
+    <div class="custom-modal-backdrop" id="customModalBackdrop"></div>
+    <div class="custom-modal" id="customModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+        <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+        <div class="modal-icon">
+            <i class="bi bi-stars"></i>
+        </div>
+        <h3 id="modalTitle">Welcome to CraftySyde!</h3>
+        <p>
+            Unlock <span style="color:#1dbf73;font-weight:600;">20% OFF</span> your first project.<br>
+            Join our creative community and connect with top freelancers for any service you need!
+        </p>
+        <ul class="modal-list">
+            <li><i class="bi bi-check-circle-fill"></i> Instant access to expert freelancers</li>
+            <li><i class="bi bi-check-circle-fill"></i> Secure payments &amp; project protection</li>
+            <li><i class="bi bi-check-circle-fill"></i> 24/7 support for clients &amp; freelancers</li>
+            <li><i class="bi bi-check-circle-fill"></i> Exclusive deals for new users</li>
+        </ul>
+        <button class="modal-btn" id="modalSignupBtn">Get My 20% Off</button>
+        <div class="modal-note">
+            No credit card required. Offer valid for a limited time.
+        </div>
+    </div>
+
+    <!-- Popup Modal JS -->
+    <script>
+        // Show popup after delay or on first visit
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!sessionStorage.getItem('popupShown')) {
+                setTimeout(() => {
+                    document.getElementById('customModalBackdrop').classList.add('active');
+                    document.getElementById('customModal').classList.add('active');
+                    document.getElementById('customModal').focus();
+                    sessionStorage.setItem('popupShown', 'yes');
+                }, 1800);
+            }
+        });
+
+        // Close modal function
+        function closeCustomModal() {
+            document.getElementById('customModalBackdrop').classList.remove('active');
+            document.getElementById('customModal').classList.remove('active');
+        }
+
+        document.getElementById('modalCloseBtn').onclick = closeCustomModal;
+        document.getElementById('customModalBackdrop').onclick = closeCustomModal;
+        document.getElementById('modalSignupBtn').onclick = function() {
+            closeCustomModal();
+            window.location.href = "#"; // Change to signup page if available
+        };
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && document.getElementById('customModal').classList.contains('active')) {
+                closeCustomModal();
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #222;
+        }
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #16a085 !important;
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: #222 !important;
+            font-weight: 500;
+            margin-right: 10px;
+            transition: color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #222 !important;
+        }
+        .btn-primary, .btn-outline-primary {
+            background: #5e17eb;
+            border-color: #5e17eb;
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary:hover, .btn-outline-primary:hover {
+            background: #138d75;
+            border-color: #138d75;
+            color: #fff;
+        }
+        .hero-section {
+            background: linear-gradient(120deg, #16a085 60%, #5e17eb 100%);
+            color: #fff;
+            padding: 80px 0 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .underline-anim {
+            position: relative;
+            overflow: hidden;
+        }
+        .underline-anim::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: #5e17eb;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .underline-anim:hover::after,
+        .underline-anim.active::after {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="images/logo.png" alt="Logo" width="auto" height="30px" class="me-2" style="border-radius:8px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item"><a class="nav-link active" href="index.html"><span class="underline-anim">Home</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html"><span class="underline-anim">About</span></a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="underline-anim">Categories</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                        <li><a class="dropdown-item" href="graphics.html">Graphic Design</a></li>
+                        <li><a class="dropdown-item" href="web.html">Web &amp; App Development</a></li>
+                        <li><a class="dropdown-item" href="content.html">Content Writing</a></li>
+                        <li><a class="dropdown-item" href="digital.html">Digital Marketing</a></li>
+                        <li><a class="dropdown-item" href="voice.html">Voice Over &amp; Audio</a></li>
+                        <li><a class="dropdown-item" href="photo.html">Photography &amp; Video Editing</a></li>
+                        <li><a class="dropdown-item" href="ecommerce.html">E-commerce Solutions</a></li>
+                        <li><a class="dropdown-item" href="business.html">Business &amp; Legal Services</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="contact.html"><span class="underline-anim">Contact</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="sign.html"><span class="underline-anim">Sign In</span></a></li>
+                <li class="nav-item ms-lg-2"><a class="btn btn-outline-primary px-3" href="join.html">Join</a></li>
+            </ul>
+            
+        </div>
+    </div>
+</nav>
+
+<!-- Promo Banner -->
+<div class="promo-banner py-2">
+    <div class="promo-marquee fw-semibold">
+        🎉 Sign up now and get 20% off your first project! Limited time offer. 🎉
+    </div>
+</div>
+
+<style>
+    .promo-banner {
+        background: linear-gradient(120deg, #16a085 60%, #5e17eb 100%);
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+    .promo-marquee {
+        white-space: nowrap;
+        display: inline-block;
+        animation: marquee 18s linear infinite;
+        font-size: 1rem;
+        padding-left: 100%;
+    }
+    @keyframes marquee {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="container">
+        <div class="row align-items-center flex-column-reverse flex-md-row">
+            <div class="col-12 col-md-7">
+                <div class="hero-content hero-appear-anim">
+                    <h1>Hire Freelancers for Any Project, Anytime.</h1>
+                    <p>From logo design to web development — find skilled freelancers in minutes.</p>
+                    <form class="hero-search" onsubmit="event.preventDefault();">
+                        <input type="text" id="heroSearchInput" placeholder="🔍 What service are you looking for?" aria-label="Search services" autocomplete="off">
+                        <button type="submit">Search</button>
+                        <ul id="searchSuggestions" class="list-group position-absolute w-100" style="z-index:10; top:100%; left:0; display:none;"></ul>
+                    </form>
+                    <div class="hero-ctas">
+                        <a href="#" class="cta-btn primary">Post a Project</a>
+                        <a href="#" class="cta-btn secondary">Browse Categories</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 d-flex justify-content-center mb-4 mb-md-0">
+                <!-- Replace the src with your own illustration if needed -->
+                <img 
+                    src="images/geographical-location.png" 
+                    alt="Freelancer Collaboration Illustration" 
+                    class="img-fluid hero-illustration"
+                    style="max-height:540px; width:auto;"
+                >
+            </div>
+            <style>
+            /* Responsive illustration sizing */
+            .hero-illustration {
+                max-height: 540px;
+                width: auto;
+            }
+            @media (max-width: 900px) {
+                .hero-illustration {
+                    max-height: 400px;
+                }
+            }
+            @media (max-width: 600px) {
+                .hero-illustration {
+                    max-height: 220px;
+                }
+            }
+            </style>
+        </div>
+    </div>
+</section>
+        <script>
+        const categories = [
+        { name: "Graphic Design", url: "graphics.html" },
+        { name: "Web & App Development", url: "web.html" },
+        { name: "Content Writing", url: "content.html" },
+        { name: "Digital Marketing", url: "digital.html" },
+        { name: "Voice Over & Audio", url: "voice.html" },
+        { name: "Photography & Video Editing", url: "photo.html" },
+        { name: "E-commerce Solutions", url: "ecommerce.html" },
+        { name: "Business & Legal Services", url: "business.html" }
+        ];
+
+        const input = document.getElementById('heroSearchInput');
+        const suggestions = document.getElementById('searchSuggestions');
+
+        // Animation helper
+        function animateSuggestion(li, callback) {
+        li.classList.add('suggestion-click-anim');
+        setTimeout(() => {
+            li.classList.remove('suggestion-click-anim');
+            if (callback) callback();
+        }, 350);
+        }
+
+        input.addEventListener('input', function() {
+        const val = this.value.trim().toLowerCase();
+        suggestions.innerHTML = '';
+        if (!val) {
+            suggestions.style.display = 'none';
+            return;
+        }
+        const matches = categories.filter(cat => cat.name.toLowerCase().includes(val));
+        if (matches.length === 0) {
+            suggestions.style.display = 'none';
+            return;
+        }
+        matches.forEach(cat => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item list-group-item-action';
+            li.innerHTML = cat.name.replace(
+            new RegExp(val, 'gi'),
+            match => `<span style="font-weight:600;color:#5e17eb">${match}</span>`
+            );
+            li.tabIndex = 0;
+            li.onclick = () => {
+            animateSuggestion(li, () => { window.location.href = cat.url; });
+            };
+            li.onkeydown = e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                animateSuggestion(li, () => { window.location.href = cat.url; });
+            }
+            };
+            // Also allow clicking highlighted word (event delegation)
+            li.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            animateSuggestion(li, () => { window.location.href = cat.url; });
+            });
+            suggestions.appendChild(li);
+        });
+        suggestions.style.display = 'block';
+        });
+
+        // Hide suggestions on blur (with slight delay for click)
+        input.addEventListener('blur', () => setTimeout(() => suggestions.style.display = 'none', 150));
+        input.addEventListener('focus', function() {
+        if (suggestions.children.length > 0) suggestions.style.display = 'block';
+        });
+
+        // Optional: handle submit to go to first match with animation
+        input.form.addEventListener('submit', function(e) {
+        const val = input.value.trim().toLowerCase();
+        const match = categories.find(cat => cat.name.toLowerCase().includes(val));
+        if (match) {
+            // Find the suggestion li if visible
+            const li = Array.from(suggestions.children).find(li =>
+            li.textContent.trim().toLowerCase() === match.name.toLowerCase()
+            );
+            if (li) {
+            animateSuggestion(li, () => { window.location.href = match.url; });
+            } else {
+            window.location.href = match.url;
+            }
+        }
+        });
+
+        // Animate hero section on page load
+        window.addEventListener('DOMContentLoaded', function() {
+        const hero = document.querySelector('.hero-content');
+        if (hero) {
+            hero.classList.add('hero-appear-anim');
+            setTimeout(() => hero.classList.remove('hero-appear-anim'), 900);
+        }
+        });
+        </script>
+        <style>
+        .hero-search {
+        position: relative;
+        }
+        #searchSuggestions {
+        max-height: 220px;
+        overflow-y: auto;
+        border-radius: 0 0 18px 18px;
+        box-shadow: 0 4px 16px rgba(94,23,235,0.10);
+        }
+        #searchSuggestions .list-group-item {
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.7rem 1.1rem;
+        transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        #searchSuggestions .list-group-item:hover, 
+        #searchSuggestions .list-group-item:focus {
+        background: linear-gradient(90deg, #f3fff9 0%, #f3f0ff 100%);
+        color: #5e17eb;
+        outline: none;
+        transform: scale(1.03);
+        }
+        /* Click animation for suggestion */
+        #searchSuggestions .suggestion-click-anim {
+        animation: suggestionClick 0.35s cubic-bezier(.4,0,.2,1);
+        background: linear-gradient(90deg, #e0f7ef 0%, #ede7fa 100%) !important;
+        color: #5e17eb !important;
+        transform: scale(0.97);
+        }
+        @keyframes suggestionClick {
+        0% { transform: scale(1); }
+        60% { transform: scale(0.93); }
+        100% { transform: scale(1); }
+        }
+        /* Hero appear animation */
+        .hero-content.hero-appear-anim {
+        animation: heroAppear 0.9s cubic-bezier(.4,0,.2,1);
+        }
+        @keyframes heroAppear {
+        0% { opacity: 0; transform: translateY(40px) scale(0.98);}
+        60% { opacity: 1; transform: translateY(-8px) scale(1.03);}
+        100% { opacity: 1; transform: translateY(0) scale(1);}
+        }
+        </style>
+
+<style>
+    .hero-section {
+        position: relative;
+        min-height: 85vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafd;
+        overflow: hidden;
+    }
+    .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(90deg, rgba(29,191,115,0.13) 0%, rgba(94,23,235,0.10) 100%);
+        pointer-events: none;
+    }
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('images/hero-bg.jpg') center/cover no-repeat;
+        opacity: 0.13;
+        z-index: 1;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 3rem 1rem 2rem 1rem;
+    }
+    .hero-content h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+    .hero-content p {
+        font-size: 1.15rem;
+        color: #444;
+        margin-bottom: 2rem;
+        font-weight: 400;
+    }
+    .hero-search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+    }
+    .hero-search input[type="text"] {
+        flex: 1 1 220px;
+        padding: 0.85rem 1.1rem;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-family: inherit;
+        outline: none;
+        transition: border 0.2s;
+        background: #fff;
+        min-width: 180px;
+    }
+    .hero-search input[type="text"]:focus {
+        border-color: #5e17eb;
+    }
+    .hero-search button {
+        padding: 0.85rem 2rem;
+        border: none;
+        border-radius: 30px;
+        background: #1dbf73;
+        color: #fff;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(94,23,235,0.08);
+    }
+    .hero-search button:hover {
+        background: #5e17eb;
+    }
+    .hero-ctas {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .cta-btn {
+        display: inline-block;
+        padding: 0.75rem 1.7rem;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(29,191,115,0.08);
+    }
+    .cta-btn.primary {
+        background: linear-gradient(90deg, #1dbf73 0%, #5e17eb 100%);
+        color: #fff;
+        border: none;
+    }
+    .cta-btn.primary:hover {
+        background: linear-gradient(90deg, #5e17eb 0%, #1dbf73 100%);
+    }
+    .cta-btn.secondary {
+        background: #fff;
+        color: #5e17eb;
+        border: 2px solid #5e17eb;
+    }
+    .cta-btn.secondary:hover {
+        background: #f3f0ff;
+        color: #1dbf73;
+        border-color: #1dbf73;
+    }
+    @media (max-width: 900px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+        .hero-content {
+            padding: 2.2rem 1rem 1.5rem 1rem;
+        }
+    }
+    @media (max-width: 600px) {
+        .hero-section {
+            min-height: 45vh;
+        }
+        .hero-content h1 {
+            font-size: 1.3rem;
+        }
+        .hero-content p {
+            font-size: 0.98rem;
+        }
+        .hero-search button,
+        .cta-btn {
+            font-size: 0.98rem;
+            padding: 0.7rem 1.2rem;
+        }
+        .hero-content {
+            padding: 1.5rem 0.5rem 1rem 0.5rem;
+        }
+    }
+</style>
+
+<!--CATEGORIES-->
+    <section class="categories-section">
+        <div class="categories-header">
+            <h2>Popular Service Categories</h2>
+        <p class="clients-subheading text-center mb-4" style="color:#555; font-size:1.15rem; font-weight:400;">
+            Discover expert freelancers in every field.
+        </p>
+
+        <div class="categories-grid">
+            <div class="category-card" tabindex="0" onclick="window.location.href='graphics.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='graphics.html';}">
+            <span class="category-icon">
+                <!-- Outline SVG icon for Graphic Design -->
+                <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                <path d="M13 13h.01M8 19l11 11 9-9-11-11-9 9z" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="category-title">Graphic Design</span>
+            <span class="category-desc">Logos, branding, illustrations, and creative visuals for your business.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='web.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='web.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Web & App Development -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <rect x="11" y="15" width="16" height="8" rx="2" stroke="#222" stroke-width="2"/>
+                        <path d="M15 19h8" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="category-title">Web &amp; App Development</span>
+                <span class="category-desc">Custom websites, mobile apps, and software solutions for any need.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='content.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='content.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Content Writing -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <path d="M12 14h14M12 19h10M12 24h6" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="category-title">Content Writing</span>
+                <span class="category-desc">Articles, blogs, copywriting, and engaging content for your audience.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='digital.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='digital.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Digital Marketing -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <circle cx="19" cy="19" r="6" stroke="#222" stroke-width="2"/>
+                        <path d="M25 13l4-4" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="category-title">Digital Marketing</span>
+                <span class="category-desc">SEO, social media, ads, and strategies to grow your online presence.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='voice.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='voice.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Voice Over & Audio -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <rect x="15" y="12" width="8" height="14" rx="4" stroke="#222" stroke-width="2"/>
+                        <path d="M19 26v4" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="category-title">Voice Over &amp; Audio</span>
+                <span class="category-desc">Professional voice overs, audio editing, and music production services.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='photo.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='photo.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Photography & Video Editing -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <rect x="11" y="15" width="16" height="10" rx="2" stroke="#222" stroke-width="2"/>
+                        <circle cx="19" cy="20" r="3" stroke="#222" stroke-width="2"/>
+                    </svg>
+                </span>
+                <span class="category-title">Photography &amp; Video Editing</span>
+                <span class="category-desc">Photo shoots, retouching, and professional video editing for all needs.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='ecommerce.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='ecommerce.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for E-commerce Solutions -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <rect x="11" y="15" width="16" height="10" rx="2" stroke="#222" stroke-width="2"/>
+                        <circle cx="15" cy="27" r="1.5" stroke="#222" stroke-width="2"/>
+                        <circle cx="25" cy="27" r="1.5" stroke="#222" stroke-width="2"/>
+                    </svg>
+                </span>
+                <span class="category-title">E-commerce Solutions</span>
+                <span class="category-desc">Online store setup, payment integration, and e-commerce management.</span>
+            </div>
+            <div class="category-card" tabindex="0" onclick="window.location.href='business.html';" onkeydown="if(event.key==='Enter'||event.key===' '){window.location.href='business.html';}">
+                <span class="category-icon">
+                    <!-- Outline SVG icon for Business & Legal Services -->
+                    <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect x="4" y="4" width="30" height="30" rx="8" stroke="#222" stroke-width="2"/>
+                        <rect x="13" y="13" width="12" height="12" rx="2" stroke="#222" stroke-width="2"/>
+                        <path d="M13 19h12" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span class="category-title">Business &amp; Legal Services</span>
+                <span class="category-desc">Consulting, contracts, accounting, and legal support for your business.</span>
+            </div>
+        </div>
+    </section>
+    <style>
+    /* Make the background gradient cover the entire screen */
+    body {
+            min-height: 100vh;
+            background: linear-gradient(90deg, #f3fff9 0%, #f3f0ff 100%);
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        /* Remove padding-top on mobile as well */
+        @media (max-width: 600px) {
+        }
+    .categories-section {
+        background: transparent;
+        margin: 0 auto 3rem auto;
+        padding: 2.5rem 1rem 1rem 1rem;
+        font-family: 'Poppins', sans-serif;
+        max-width: 1200px;
+    }
+    .categories-header {
+        text-align: center;
+        margin-bottom: 2.2rem;
+    }
+    .categories-header h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 0.5rem;
+    }
+    .categories-header p {
+        color: #555;
+        font-size: 1.1rem;
+        font-weight: 400;
+    }
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+    }
+    .category-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 2px 12px rgba(94,23,235,0.07), 0 1.5px 6px rgba(29,191,115,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2.2rem 1rem 1.2rem 1rem;
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s, background 0.2s;
+        outline: none;
+        border: 2px solid transparent;
+        min-height: 190px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    }
+    .category-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .category-card:hover,
+    .category-card:focus {
+        box-shadow: 0 4px 20px rgba(94,23,235,0.13), 0 2px 8px rgba(29,191,115,0.10);
+        transform: translateY(-4px) scale(1.025);
+        background: linear-gradient(90deg, #f3fff9 0%, #f3f0ff 100%);
+        border-color: #5e17eb;
+    }
+    .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .category-icon svg [stroke] {
+        stroke: #222;
+        transition: stroke 0.3s;
+    }
+    .category-card:hover .category-icon svg [stroke],
+    .category-card:focus .category-icon svg [stroke] {
+        stroke: url(#cat-gradient);
+    }
+    .category-title {
+        font-size: 1.13rem;
+        font-weight: 600;
+        color: #222;
+        text-align: center;
+        margin-bottom: 0.5rem;
+    }
+    .category-desc {
+        font-size: 0.98rem;
+        color: #555;
+        text-align: center;
+        margin-top: 0.2rem;
+        line-height: 1.4;
+        min-height: 44px;
+        display: block;
+    }
+    @media (max-width: 1100px) {
+        .categories-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media (max-width: 900px) {
+        .categories-header h2 {
+            font-size: 1.4rem;
+        }
+        .categories-section {
+            padding: 1.5rem 0.5rem 0.5rem 0.5rem;
+        }
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .category-card {
+            min-height: 170px;
+        }
+    }
+    @media (max-width: 600px) {
+        .categories-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .category-card {
+            padding: 1.3rem 0.5rem 0.8rem 0.5rem;
+            min-height: 120px;
+        }
+        .category-icon {
+            font-size: 1.7rem;
+            margin-bottom: 0.7rem;
+        }
+        .categories-header h2 {
+            font-size: 1.1rem;
+        }
+        .category-desc {
+            font-size: 0.92rem;
+            min-height: 36px;
+        }
+    }
+    </style>
+    <script>
+    // Add gradient to all SVGs
+    document.querySelectorAll('.category-icon svg').forEach(svg => {
+        if (!svg.querySelector('defs')) {
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            grad.setAttribute('id', 'cat-gradient');
+            grad.setAttribute('x1', '0%');
+            grad.setAttribute('y1', '0%');
+            grad.setAttribute('x2', '100%');
+            grad.setAttribute('y2', '0%');
+            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#1dbf73');
+            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#5e17eb');
+            grad.appendChild(stop1);
+            grad.appendChild(stop2);
+            defs.appendChild(grad);
+            svg.insertBefore(defs, svg.firstChild);
+        }
+    });
+    // On hover/focus, set stroke to gradient, else black
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.querySelectorAll('.category-icon svg [stroke]').forEach(el => {
+                el.setAttribute('stroke', 'url(#cat-gradient)');
+            });
+        });
+        card.addEventListener('mouseleave', () => {
+            card.querySelectorAll('.category-icon svg [stroke]').forEach(el => {
+                el.setAttribute('stroke', '#222');
+            });
+        });
+        card.addEventListener('focus', () => {
+            card.querySelectorAll('.category-icon svg [stroke]').forEach(el => {
+                el.setAttribute('stroke', 'url(#cat-gradient)');
+            });
+        });
+        card.addEventListener('blur', () => {
+            card.querySelectorAll('.category-icon svg [stroke]').forEach(el => {
+                el.setAttribute('stroke', '#222');
+            });
+        });
+
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                card.click();
+            }
+        });
+    });
+
+    // Animation on scroll for category cards
+    function revealOnScroll() {
+        const cards = document.querySelectorAll('.category-card');
+        const windowHeight = window.innerHeight;
+        cards.forEach((card, i) => {
+            const rect = card.getBoundingClientRect();
+            if (rect.top < windowHeight - 60) {
+                setTimeout(() => card.classList.add('visible'), i * 80);
+            }
+        });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+    </script>
+<!-- Our Clients Section -->
+<section class="clients-section py-5">
+    <div class="container">
+        <h2 class="clients-title text-center mb-4">Trusted by Leading Brands</h2>
+        <p class="clients-subheading text-center mb-4" style="color:#555; font-size:1.15rem; font-weight:400;">
+            Our platform is trusted by startups, agencies, and enterprises worldwide.
+        </p>
+        <div class="clients-logos">
+            <div class="clients-marquee-row">
+                <div class="clients-marquee">
+                    <div class="clients-marquee-inner d-flex">
+                        <img src="logos/amazon.svg"alt="Brand 1" class="client-logo img-fluid" />
+                        <img src="logos/best.svg"alt="Brand 2" class="client-logo img-fluid" />
+                        <img src="logos/burger.svg"alt="Brand 3" class="client-logo img-fluid" />
+                        <img src="logos/converse.svg"alt="Brand 4" class="client-logo img-fluid" />
+                        <img src="logos/dove.svg" alt="Brand 5" class="client-logo img-fluid" />
+                        <!-- Duplicate for seamless loop -->
+                        <img src="logos/ebay.svg" alt="Brand 9" class="client-logo img-fluid" />
+                        <img src="logos/fila.svg" alt="Brand 10" class="client-logo img-fluid" />
+                        <img src="logos/flipkart.svg" alt="Brand 11" class="client-logo img-fluid" />
+                        <img src="logos/levi.svg" alt="Brand 12" class="client-logo img-fluid" />
+                        <img src="logos/shopify.svg" alt="Brand 13" class="client-logo img-fluid" />
+                        <img src="logos/maybelline.svg" alt="Brand 14" class="client-logo img-fluid" />
+                    </div>
+                </div>
+            </div>
+            <div class="clients-marquee-row">
+                <div class="clients-marquee reverse">
+                    <div class="clients-marquee-inner d-flex">
+                        <img src="logos/ebay.svg" alt="Brand 9" class="client-logo img-fluid" />
+                        <img src="logos/fila.svg" alt="Brand 10" class="client-logo img-fluid" />
+                        <img src="logos/flipkart.svg" alt="Brand 11" class="client-logo img-fluid" />
+                        <img src="logos/levi.svg" alt="Brand 12" class="client-logo img-fluid" />
+                        <img src="logos/shopify.svg" alt="Brand 13" class="client-logo img-fluid" />
+                        <img src="logos/amazon.svg"alt="Brand 1" class="client-logo img-fluid" />
+                        <img src="logos/best.svg"alt="Brand 2" class="client-logo img-fluid" />
+                        <img src="logos/burger.svg"alt="Brand 3" class="client-logo img-fluid" />
+                        <img src="logos/converse.svg"alt="Brand 4" class="client-logo img-fluid" />
+                        <img src="logos/dove.svg" alt="Brand 5" class="client-logo img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+.clients-section {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 2.5rem 1rem 1rem 1rem;
+    background: transparent;
+}
+
+.clients-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.5px;
+}
+.clients-logos {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+.clients-marquee-row {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+}
+.clients-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.clients-marquee-inner {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    animation: clients-marquee-anim 22s linear infinite;
+    will-change: transform;
+}
+.clients-marquee.reverse .clients-marquee-inner {
+    animation-direction: reverse;
+    animation-duration: 26s;
+}
+@keyframes clients-marquee-anim {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.client-logo {
+    max-height: 60px;
+    max-width: 120px;
+    object-fit: contain;
+    filter: grayscale(0.2) brightness(0.97);
+    transition: filter 0.2s, transform 0.2s;
+    padding: 0.5rem 0.7rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(94,23,235,0.06);
+    margin: 0 0.5rem;
+    flex-shrink: 0;
+}
+.client-logo:hover {
+    filter: none;
+    transform: scale(1.06);
+    box-shadow: 0 4px 16px rgba(94,23,235,0.10);
+}
+@media (max-width: 1200px) {
+    .clients-section {
+        min-height: 40vh;
+        padding-top: 2.2rem;
+        padding-bottom: 2.2rem;
+    }
+    .clients-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+    }
+    .client-logo {
+        max-height: 44px;
+        max-width: 90px;
+        padding: 0.3rem 0.4rem;
+    }
+    .clients-marquee-inner {
+        gap: 1.2rem;
+    }
+    .clients-logos {
+        gap: 1.2rem;
+    }
+    .clients-marquee-row {
+        min-height: 60px;
+    }
+}
+@media (max-width: 900px) {
+    .clients-section {
+        min-height: 30vh;
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+    .clients-title {
+        font-size: 1.05rem;
+        margin-bottom: 0.8rem;
+    }
+    .client-logo {
+        max-height: 32px;
+        max-width: 60px;
+        padding: 0.2rem 0.2rem;
+    }
+    .clients-marquee-inner {
+        gap: 0.7rem;
+    }
+    .clients-logos {
+        gap: 0.7rem;
+    }
+    .clients-marquee-row {
+        min-height: 36px;
+    }
+}
+@media (max-width: 600px) {
+    .clients-section {
+        min-height: 20vh;
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+    }
+    .clients-title {
+        font-size: 1.35rem;
+        margin-bottom: 0.7rem;
+    }
+    .client-logo {
+        max-height: 54px;
+        max-width: 110px;
+        padding: 0.22rem 0.22rem;
+    }
+    .clients-marquee-inner {
+        gap: 0.9rem;
+    }
+    .clients-logos {
+        gap: 0.9rem;
+    }
+    .clients-marquee-row {
+        min-height: 38px;
+    }
+}
+@media (max-width: 400px) {
+    .clients-title {
+        font-size: 1.18rem;
+    }
+    .client-logo {
+        max-height: 44px;
+        max-width: 80px;
+        padding: 0.16rem 0.16rem;
+    }
+    .clients-marquee-inner {
+        gap: 0.6rem;
+    }
+    .clients-logos {
+        gap: 0.6rem;
+    }
+    .clients-marquee-row {
+        min-height: 28px;
+    }
+}
+</style>
+<!-- Testimonials Section -->
+<section class="testimonials-section py-5">
+    <div class="container">
+        <h2 class="testimonials-title text-center mb-4">What Our Users Say</h2>
+        <p class="testimonials-subheading text-center mb-4" style="color:#555; font-size:1.15rem; font-weight:400;">
+            Hear from real clients and freelancers who love CraftySyde.
+        </p>
+        <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Testimonial 1 -->
+                <div class="carousel-item active">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-quote">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            “CraftySyde made it so easy to find a talented designer for my brand. The process was smooth and the results exceeded my expectations!”
+                        </p>
+                        <div class="testimonial-user d-flex align-items-center justify-content-center">
+                            <img src="logos/t1.jpg" alt="User 1" class="testimonial-avatar me-3">
+                            <div>
+                                <div class="testimonial-name">Priya Sharma</div>
+                                <div class="testimonial-role">Startup Founder</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="carousel-item">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-quote">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            “I landed my first freelance gig within days of joining. The platform is secure and the support team is fantastic!”
+                        </p>
+                        <div class="testimonial-user d-flex align-items-center justify-content-center">
+                            <img src="logos/t2.jpg" alt="User 2" class="testimonial-avatar me-3">
+                            <div>
+                                <div class="testimonial-name">Amita Verma</div>
+                                <div class="testimonial-role">Web Developer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="carousel-item">
+                    <div class="testimonial-card mx-auto">
+                        <div class="testimonial-quote">
+                            <i class="bi bi-quote"></i>
+                        </div>
+                        <p class="testimonial-text">
+                            “We hired a content writer and a marketing expert for our campaign. Both delivered high-quality work on time. Highly recommended!”
+                        </p>
+                        <div class="testimonial-user d-flex align-items-center justify-content-center">
+                            <img src="logos/t3.jpg" alt="User 3" class="testimonial-avatar me-3">
+                            <div>
+                                <div class="testimonial-name">Sonal Mehta</div>
+                                <div class="testimonial-role">Agency Manager</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:#5e17eb;border-radius:50%;"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:#5e17eb;border-radius:50%;"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</section>
+<style>
+.testimonials-section {
+    background: linear-gradient(90deg, #f3fff9 0%, #f3f0ff 100%);
+    border-radius: 0 0 32px 32px;
+    margin-bottom: 2rem;
+}
+.testimonials-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.5px;
+}
+.testimonial-card {
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 2px 12px rgba(94,23,235,0.07), 0 1.5px 6px rgba(29,191,115,0.06);
+    padding: 2.2rem 2rem 1.5rem 2rem;
+    max-width: 540px;
+    text-align: center;
+    position: relative;
+}
+.testimonial-quote {
+    font-size: 2.5rem;
+    color: #5e17eb;
+    margin-bottom: 1rem;
+}
+.testimonial-text {
+    font-size: 1.13rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    line-height: 1.6;
+}
+.testimonial-user {
+    margin-top: 0.5rem;
+}
+.testimonial-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid #1dbf73;
+    box-shadow: 0 2px 8px rgba(94,23,235,0.08);
+}
+.testimonial-name {
+    font-weight: 600;
+    color: #222;
+    font-size: 1.08rem;
+}
+.testimonial-role {
+    color: #5e17eb;
+    font-size: 0.97rem;
+    font-weight: 500;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+}
+@media (max-width: 900px) {
+    .testimonials-title {
+        font-size: 1.3rem;
+    }
+    .testimonial-card {
+        padding: 1.3rem 0.7rem 1rem 0.7rem;
+        max-width: 98vw;
+    }
+    .testimonial-text {
+        font-size: 1rem;
+    }
+    .testimonial-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}
+@media (max-width: 600px) {
+    .testimonials-section {
+        border-radius: 0 0 18px 18px;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    .testimonials-title {
+        font-size: 1.1rem;
+    }
+    .testimonial-card {
+        padding: 1rem 0.3rem 0.7rem 0.3rem;
+    }
+    .testimonial-text {
+        font-size: 0.97rem;
+    }
+}
+</style>
+
+<!-- Footer -->
+<footer class="footer-section mt-5 pt-4 pb-3">
+    <div class="container">
+        <div class="row gy-4 align-items-start">
+            <div class="col-12 col-md-4 mb-3 mb-md-0">
+                <a class="footer-brand d-flex align-items-center mb-2" href="#">
+                    <img src="images/logo.png" alt="CraftySyde Logo" height="34" style="border-radius:8px;">
+                </a>
+                <p class="footer-desc" style="color:#222;">
+                    Connecting you with top freelancers for every creative and business need.
+                </p>
+            </div>
+            <div class="col-6 col-md-2">
+                <h6 class="footer-title">Marketplace</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="graphics.html">Graphic Design</a></li>
+                    <li><a href="web.html">Web &amp; App Dev</a></li>
+                    <li><a href="content.html">Content Writing</a></li>
+                    <li><a href="digital.html">Digital Marketing</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md-2">
+                <h6 class="footer-title">Company</h6>
+                <ul class="footer-links list-unstyled">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sign.html">Sign In</a></li>
+                    <li><a href="join.html">Join</a></li>
+
+                </ul>
+            </div>
+            <div class="col-12 col-md-4">
+                <h6 class="footer-title">Get in Touch</h6>
+                <ul class="footer-contact list-unstyled mb-2">
+                    <li><i class="bi bi-envelope me-2"></i> <a href="mailto:support@craftysyde.com">support@craftysyde.com</a></li>
+                    <li><i class="bi bi-geo-alt me-2"></i> Mumbai, India</li>
+                </ul>
+                <div class="footer-social d-flex gap-3">
+                    <a href="https://www.instagram.com/" class="footer-social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/" class="footer-social-link" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                    <a href="https://in.linkedin.com/" class="footer-social-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    <a href="https://www.facebook.com/" class="footer-social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="footer-divider my-4">
+        <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="footer-copyright mb-2 mb-md-0">
+                &copy; 2025 CraftySyde. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+<style>
+.footer-section {
+    background-color: white;
+    box-shadow: 0 -2px 12px rgba(94,23,235,0.07);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+.footer-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #16a085 !important;
+    text-decoration: none;
+}
+.footer-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #5e17eb;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.5px;
+}
+.footer-links li {
+    margin-bottom: 0.4rem;
+}
+.footer-links a {
+    color: #222;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+.footer-links a:hover {
+    color: #1dbf73;
+}
+.footer-contact li {
+    color: #555;
+    font-size: 0.98rem;
+    margin-bottom: 0.3rem;
+}
+.footer-contact a {
+    color: #5e17eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+.footer-contact a:hover {
+    color: #1dbf73;
+}
+.footer-social-link {
+    color: #5e17eb;
+    font-size: 1.3rem;
+    transition: color 0.2s, transform 0.2s;
+}
+.footer-social-link:hover {
+    color: #1dbf73;
+    transform: scale(1.15);
+}
+.footer-divider {
+    border-top: 1.5px solid #e0e0e0;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+.footer-bottom {
+    font-size: 0.97rem;
+    color: #888;
+}
+.footer-legal a {
+    color: #888;
+    text-decoration: none;
+    margin-right: 0.7rem;
+    transition: color 0.2s;
+    font-size: 0.97rem;
+}
+.footer-legal a:hover {
+    color: #5e17eb;
+}
+@media (max-width: 900px) {
+    .footer-section {
+        border-radius: 18px 18px 0 0;
+        font-size: 0.97rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .footer-title {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 600px) {
+    .footer-section {
+        border-radius: 12px 12px 0 0;
+        font-size: 0.95rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .footer-title {
+        font-size: 0.97rem;
+    }
+    .footer-bottom {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
+</style>
+
+</style>
+<!-- Bootstrap JS (for carousel) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Freelance Marketplace - Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #222;
+        }
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #16a085 !important;
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            color: #222 !important;
+            font-weight: 500;
+            margin-right: 10px;
+            transition: color 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #16a085 !important;
+        }
+        .btn-primary, .btn-outline-primary {
+            background: #16a085;
+            border-color: #16a085;
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-primary:hover, .btn-outline-primary:hover {
+            background: #138d75;
+            border-color: #138d75;
+            color: #fff;
+        }
+        .hero-section {
+            background: linear-gradient(120deg, #16a085 60%, #5e17eb 100%);
+            color: #fff;
+            padding: 80px 0 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section .form-control {
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(22,160,133,0.08);
+        }
+        .hero-section .btn {
+            border-radius: 30px;
+            margin: 10px 5px 0 5px;
+        }
+        .category-card, .service-card, .freelancer-card, .blog-card, .testimonial-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(22,160,133,0.07);
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+        }
+        .category-card:hover, .service-card:hover, .freelancer-card:hover, .blog-card:hover, .testimonial-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 6px 24px rgba(22,160,133,0.13);
+        }
+        .category-icon {
+            font-size: 2.5rem;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .service-card img, .freelancer-card img, .blog-card img, .testimonial-avatar {
+            border-radius: 12px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .freelancer-card img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .step-icon {
+            font-size: 2.2rem;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .trust-icon {
+            font-size: 2rem;
+            color: #16a085;
+            margin-bottom: 8px;
+        }
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .counter {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #16a085;
+        }
+        .newsletter-section {
+            background: #e8f8f5;
+            padding: 40px 0;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+        .newsletter-section .form-control {
+            border-radius: 30px;
+            max-width: 320px;
+            display: inline-block;
+        }
+        .footer {
+            background: #222;
+            color: #fff;
+            padding: 40px 0 20px 0;
+            font-size: 0.97rem;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+        .footer a:hover {
+            opacity: 1;
+            color: #16a085;
+        }
+        .footer .social-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            color: #16a085;
+            transition: color 0.2s;
+        }
+        .footer .social-icon:hover {
+            color: #1abc9c;
+        }
+        .footer-select {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 12px;
+            margin-right: 10px;
+        }
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: #fff;
+                padding: 10px 0;
+            }
+        }
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 60px 0 40px 0;
+            }
+            .newsletter-section {
+                padding: 30px 0;
+            }
+            .footer {
+                padding: 30px 0 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="images/logo.png" alt="Logo" width="auto" height="30px" class="me-2" style="border-radius:8px;">
+            
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <li class="nav-item"><a class="nav-link active underline-anim" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link underline-anim" href="#">Browse Categories</a></li>
+                <li class="nav-item"><a class="nav-link underline-anim" href="#">How It Works</a></li>
+                <li class="nav-item"><a class="nav-link underline-anim" href="#">Blog</a></li>
+                <li class="nav-item"><a class="nav-link underline-anim" href="#">Sign In</a></li>
+                <li class="nav-item ms-lg-2"><a class="btn btn-outline-primary px-3" href="#">Join</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<style>
+    .underline-anim {
+        position: relative;
+        overflow: hidden;
+    }
+    .underline-anim::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        background: #16a085;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.8s cubic-bezier(0.4,0,0.2,1);
+    }
+    .underline-anim:hover::after,
+    .underline-anim.active::after {
+        transform: scaleX(1);
+    }
+</style>
+
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-5 fw-bold mb-3">Hire Freelancers for Any Project, Anytime.</h1>
+        <p class="lead mb-4">Find top talent for your business needs. Fast, secure, and reliable.</p>
+        <form class="d-flex justify-content-center mb-3" role="search">
+            <input class="form-control me-2 shadow-sm" type="search" placeholder="What service are you looking for?" aria-label="Search">
+            <button class="btn btn-primary px-4" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+        <div>
+            <a href="#" class="btn btn-primary px-4 me-2">Post a Job</a>
+            <a href="#" class="btn btn-outline-light px-4">Browse Categories</a>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Categories -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Popular Service Categories</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-brush"></i></div>
+                    <div class="fw-semibold">Graphic Design</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-code-slash"></i></div>
+                    <div class="fw-semibold">Web Development</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-pencil-square"></i></div>
+                    <div class="fw-semibold">Content Writing</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-megaphone"></i></div>
+                    <div class="fw-semibold">Digital Marketing</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-camera-video"></i></div>
+                    <div class="fw-semibold">Video Editing</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-music-note-beamed"></i></div>
+                    <div class="fw-semibold">Music & Audio</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-translate"></i></div>
+                    <div class="fw-semibold">Translation</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="category-card text-center p-3 h-100">
+                    <div class="category-icon"><i class="bi bi-bar-chart"></i></div>
+                    <div class="fw-semibold">Data Analysis</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Services -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Handpicked for You</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="service-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x250/?design,logo" alt="Service" class="mb-3">
+                    <div class="fw-semibold mb-1">Logo Design for Startups</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 4.9 (120)
+                    </div>
+                    <div class="fw-bold">$50</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x250/?website,code" alt="Service" class="mb-3">
+                    <div class="fw-semibold mb-1">Responsive Website Development</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 5.0 (98)
+                    </div>
+                    <div class="fw-bold">$200</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x250/?content,writing" alt="Service" class="mb-3">
+                    <div class="fw-semibold mb-1">SEO Blog Article Writing</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 4.8 (76)
+                    </div>
+                    <div class="fw-bold">$30</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Freelancers -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Top Talent. Verified Results.</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3">
+                <div class="freelancer-card text-center p-3 h-100">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Freelancer">
+                    <div class="fw-semibold">Alex Johnson</div>
+                    <div class="text-muted mb-1">Web Developer</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 5.0
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm px-3">View Profile</a>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="freelancer-card text-center p-3 h-100">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Freelancer">
+                    <div class="fw-semibold">Maria Lee</div>
+                    <div class="text-muted mb-1">Graphic Designer</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 4.9
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm px-3">View Profile</a>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="freelancer-card text-center p-3 h-100">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Freelancer">
+                    <div class="fw-semibold">Samuel Green</div>
+                    <div class="text-muted mb-1">Content Writer</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 4.8
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm px-3">View Profile</a>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="freelancer-card text-center p-3 h-100">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Freelancer">
+                    <div class="fw-semibold">Priya Sharma</div>
+                    <div class="text-muted mb-1">Digital Marketer</div>
+                    <div class="mb-2 text-warning">
+                        <i class="bi bi-star-fill"></i> 5.0
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm px-3">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Get Work Done in 4 Simple Steps</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3 text-center">
+                <div class="step-icon mb-2"><i class="bi bi-search"></i></div>
+                <div class="fw-semibold">1. Browse Services</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="step-icon mb-2"><i class="bi bi-person-plus"></i></div>
+                <div class="fw-semibold">2. Hire Talent</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="step-icon mb-2"><i class="bi bi-chat-dots"></i></div>
+                <div class="fw-semibold">3. Collaborate</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="step-icon mb-2"><i class="bi bi-cash-stack"></i></div>
+                <div class="fw-semibold">4. Pay Securely</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust & Safety -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Your Trusted Freelance Marketplace</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-3 text-center">
+                <div class="trust-icon"><i class="bi bi-shield-lock"></i></div>
+                <div class="fw-semibold">Secure Payments</div>
+                <div class="text-muted small">Your funds are protected until work is approved.</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="trust-icon"><i class="bi bi-headset"></i></div>
+                <div class="fw-semibold">24/7 Support</div>
+                <div class="text-muted small">Our team is here to help you anytime.</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="trust-icon"><i class="bi bi-patch-check"></i></div>
+                <div class="fw-semibold">Verified Talent</div>
+                <div class="text-muted small">All freelancers are vetted for quality.</div>
+            </div>
+            <div class="col-6 col-md-3 text-center">
+                <div class="trust-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="fw-semibold">Dispute Resolution</div>
+                <div class="text-muted small">We mediate to resolve any issues fairly.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">What Clients Say</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 h-100 text-center">
+                    <img src="https://randomuser.me/api/portraits/men/21.jpg" alt="Client" class="testimonial-avatar mb-2">
+                    <blockquote class="mb-2">“Amazing experience! Found the perfect designer in minutes.”</blockquote>
+                    <div class="fw-semibold">James T.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 h-100 text-center">
+                    <img src="https://randomuser.me/api/portraits/women/29.jpg" alt="Client" class="testimonial-avatar mb-2">
+                    <blockquote class="mb-2">“The process was smooth and secure. Highly recommend!”</blockquote>
+                    <div class="fw-semibold">Linda S.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 h-100 text-center">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client" class="testimonial-avatar mb-2">
+                    <blockquote class="mb-2">“Great platform for hiring talented freelancers globally.”</blockquote>
+                    <div class="fw-semibold">Carlos M.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Global Trust Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">A Global Network of Talent</h2>
+        <div class="row text-center justify-content-center">
+            <div class="col-6 col-md-3 mb-3">
+                <div class="counter" id="freelancersCount">0</div>
+                <div class="text-muted">Freelancers</div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="counter" id="countriesCount">0</div>
+                <div class="text-muted">Countries</div>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+                <div class="counter" id="projectsCount">0</div>
+                <div class="text-muted">Projects Completed</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Business Services -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="fw-bold mb-2">Need Enterprise-Level Help?</h2>
+                <p class="mb-3">Unlock advanced solutions for your business with our Pro services. Dedicated account managers, curated talent, and tailored workflows for teams of any size.</p>
+            </div>
+            <div class="col-md-4 text-md-end text-center">
+                <a href="#" class="btn btn-primary px-4">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog/Resources -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Resources & Guides</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="blog-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x200/?freelance,work" alt="Blog" class="mb-3">
+                    <div class="fw-semibold mb-1">How to Hire the Right Freelancer</div>
+                    <div class="text-muted mb-2">Tips and strategies for finding the best talent for your project.</div>
+                    <a href="#" class="btn btn-link p-0">Read More <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x200/?remote,team" alt="Blog" class="mb-3">
+                    <div class="fw-semibold mb-1">Managing Remote Teams Effectively</div>
+                    <div class="text-muted mb-2">Best practices for collaborating with freelancers worldwide.</div>
+                    <a href="#" class="btn btn-link p-0">Read More <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card p-3 h-100">
+                    <img src="https://source.unsplash.com/400x200/?business,success" alt="Blog" class="mb-3">
+                    <div class="fw-semibold mb-1">Scaling Your Business with Freelancers</div>
+                    <div class="text-muted mb-2">How to leverage freelance talent for rapid growth.</div>
+                    <a href="#" class="btn btn-link p-0">Read More <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Signup -->
+<section class="newsletter-section my-5">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-6 text-center">
+                <h3 class="fw-bold mb-3">Subscribe to Our Newsletter</h3>
+                <form class="d-flex justify-content-center flex-wrap gap-2">
+                    <input type="email" class="form-control shadow-sm" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary px-4">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold mb-2">About</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Company</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold mb-2">Resources</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Guides</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold mb-2">Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-3">
+                <h5 class="fw-bold mb-2">Follow Us</h5>
+                <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-md-8 mb-2">
+                <select class="footer-select">
+                    <option>English</option>
+                    <option>Español</option>
+                    <option>Français</option>
+                </select>
+                <select class="footer-select">
+                    <option>USD</option>
+                    <option>EUR</option>
+                    <option>GBP</option>
+                </select>
+                <span class="ms-2">&copy; 2024 FreelancePro. All rights reserved.</span>
+            </div>
+            <div class="col-md-4 text-md-end text-center">
+                <small>Powered by FreelancePro</small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Animated counters for Global Trust section
+    function animateCounter(id, target, duration) {
+        const el = document.getElementById(id);
+        let start = 0;
+        const increment = Math.ceil(target / (duration / 20));
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= target) {
+                el.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                el.textContent = start.toLocaleString();
+            }
+        }, 20);
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+        animateCounter('freelancersCount', 120000, 1200);
+        animateCounter('countriesCount', 180, 1000);
+        animateCounter('projectsCount', 950000, 1400);
+    });
+</script>
+</body>
+</html>
